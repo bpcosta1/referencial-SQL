@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referencial de SQL</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="left">
+                <h1 class="h1">Referencial de SQL</h1>
+                <p class="nome-aluno">Bruno Costa - 12º ITM2</p>
+            </div>
+            <div class="right">
+                <nav>
+                    <ul>
+                        <li class="li"><a class="a" href="#comandos-basicos">Comandos Básicos</a></li>
+                        <li class="li"><a class="a" href="#comandos-basesdados">Comandos BD</a></li>
+                        <li class="li"><a class="a" href="#indices">Índices</a></li>
+                        <li class="li"><a class="a" href="#views">Views</a></li>
+                        <li class="li"><a class="a" href="#tiposdados">Tipos de Dados</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <p><strong>Este referencial SQL ensinará como usar SQL em MySQL.</strong></p>
+
+        <section id="comandos-basicos">
+
+            <h2 class="h2">Comandos Básicos</h2>
+
+            <div class="comando">
+                <h3 class="h3">SELECT</h3>
+                <p>A instrução SELECT é usada para selecionar dados de um banco de dados.</p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela;
+                </code>
+                <h4>Exemplo</h4>
+                <p>Retornar todas as colunas da tabela clientes:</p>
+                <code>
+                    SELECT * FROM Clientes;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">WHERE</h3>
+                <p>
+                    A cláusula WHERE é usada para filtrar registros. <br>
+                    É usado para extrair apenas os registros que atendem a uma condição especificada.</p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela <br>
+                    WHERE condição;
+                </code>
+                <h4>Exemplo</h4>
+                <p>Selecionar todos os clientes do México:</p>
+                <code>
+                    SELECT * FROM Clientes <br>
+                    WHERE País = 'México'; 
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">ORDER BY</h3>
+                <p>
+                    A palavra-chave ORDER BY é usada para classificar o conjunto de resultados em ordem crescente ou decrescente.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela <br>
+                    ORDER BY coluna1, coluna2, ... ASC|DESC;
+                </code>
+                <h4>Exemplo</h4>
+                <p>Classifique os produtos por preço:</p>
+                <code>
+                    SELECT * FROM Produtos <br>
+                    ORDER BY Preço;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">AND</h3>
+                <p>
+                    A cláusula WHERE pode conter um ou vários operadores AND. <br>
+                    O operador AND é usado para filtrar registros com base em mais de uma condição.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela <br>
+                    WHERE condição1 AND condição2 AND condição3 ...; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Retornar todos os clientes da Espanha que comecem com a letra 'G':
+                </p>
+                <code>
+                    SELECT * <br>
+                    FROM Clientes <br>
+                    WHERE País = 'Espanha' AND NomeCliente LIKE 'G%';
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">OR</h3>
+                <p>
+                    A cláusula WHERE pode conter um ou mais operadores OR. <br>
+                    O operador OR é usado para filtrar registros com base em mais de uma condição
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela <br>
+                    WHERE condição1 OR condição2 OR condição3 ...;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Retornar todos os clientes da Alemanha, mas também os da Espanha:
+                </p>
+                <code>
+                    SELECT * <br>
+                    FROM Clientes <br>
+                    WHERE País = 'Espanha' OR País = 'Alemanha';
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">NOT</h3>
+                <p>
+                    O operador NOT é usado em combinação com outros operadores para fornecer o resultado oposto, também chamado de resultado negativo.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela <br>
+                    WHERE NOT condição;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Devolver todos os clientes que NÃO são da Espanha:
+                </p>
+                <code>
+                    SELECT * FROM Clientes <br>
+                    WHERE NOT País = 'Espanha';
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">INSERT</h3>
+                <p>
+                    A instrução INSERT INTO é usada para inserir novos registros em uma tabela.                
+                </p>
+                <h4>Sintaxe</h4>
+                <p>1. Especifique os nomes das colunas e os valores a serem inseridos:</p>
+                <code>
+                    INSERT INTO nome_tabela (coluna1, coluna2, coluna3, ...) <br>
+                    VALUES (valor1, valor2, valor3, ...); 
+                </code>
+                <p>2. Se estiver adicionando valores para todas as colunas da tabela, não será necessário especificar os nomes das colunas na consulta SQL. No entanto, certifique-se de que a ordem dos valores esteja na mesma ordem das colunas da tabela. Aqui, a sintaxe INSERT INTO seria a seguinte:</p>
+                <code>
+                    INSERT INTO nome_tabela <br>
+                    VALUES (valor1, valor2, valor3, ...);
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Insere um novo registro na tabela "Clientes":
+                </p>
+                <code>
+                    INSERT INTO Clientes (nomeCliente, contactoNome, Endereço, Cidade, CodigoPostal, País) <br>
+                    VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">UPDATE</h3>
+                <p>
+                    A instrução UPDATE é usada para modificar os registros existentes em uma tabela.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    UPDATE nome_tabela <br>
+                    SET coluna1 = valor1, coluna2 = valor2, ... <br>
+                    WHERE condição; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A instrução SQL a seguir atualiza o primeiro cliente (ClienteID = 1) com uma nova pessoa de contato e uma nova cidade.
+                </p>
+                <code>
+                    UPDATE Clientes <br>
+                    SET contactoNome = 'Alfredo Silva', Cidade = 'Frankfurt' <br>
+                    WHERE ClienteID = 1;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">DELETE</h3>
+                <p>
+                    A instrução DELETE é usada para excluir registros existentes em uma tabela.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    DELETE FROM nome_tabela WHERE condição;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A seguinte instrução SQL exclui o cliente "António das Rosas" da tabela "Clientes":
+                </p>
+                <code>
+                    DELETE FROM Clientes WHERE nomeCliente ='António das Rosas';
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">MIN e MAX</h3>
+                <p>
+                    A função MIN() retorna o menor valor da coluna selecionada. <br>
+                    A função MAX() retorna o maior valor da coluna selecionada.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT MIN/MAX(nome_coluna) <br>
+                    FROM nome_tabela <br>
+                    WHERE condição; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Encontrar o preço mais baixo:
+                </p>
+                <code>
+                    SELECT MIN(Preço) <br>
+                    FROM Produtos;
+                </code>
+                <p>​
+                    Encontrar o preço mais alto:
+                </p>
+                <code>
+                    SELECT MAX(Preço) <br>
+                    FROM Produtos;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">COUNT</h3>
+                <p>
+                    A função COUNT() retorna o número de linhas que corresponde a um critério especificado.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT COUNT(nome_coluna) <br>
+                    FROM nome_tabela <br>
+                    WHERE condição; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Encontrar o número total de produtos na tabela Produtos:
+                </p>
+                <code>
+                    SELECT COUNT(*) <br>
+                    FROM Produtos; <br>
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">SUM</h3>
+                <p>
+                    A função SUM() retorna a soma total de uma coluna numérica.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT SUM(nome_coluna) <br>
+                    FROM nome_tabela <br>
+                    WHERE condição; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Retornar a soma de todos os campos Quantidade na tabela DetalhesEncomenda:
+                </p>
+                <code>
+                    SELECT SUM(Quantidade) <br>
+                    FROM DetalhesEncomenda;  <br>
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">AVG</h3>
+                <p>
+                    A função AVG() retorna o valor médio de uma coluna numérica.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT AVG(nome_coluna) <br>
+                    FROM nome_tabela <br>
+                    WHERE condição; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Encontrar o preço médio de todos os produtos:
+                </p>
+                <code>
+                    SELECT AVG(Preço) <br>
+                    FROM Produtos; <br>
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">LIKE</h3>
+                <p>
+                    O operador LIKE é usado em uma cláusula WHERE para procurar um padrão especificado em uma coluna. <br> <br>
+
+                    Existem dois curingas frequentemente usados em conjunto com o operador LIKE: <br> <br>
+
+                        - O sinal de porcentagem % representa zero, um ou vários caracteres <br>
+                        - O sinal de sublinhado _ representa um único caractere
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela <br>
+                    WHERE colunaN LIKE padrão;  <br>
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Selecione todos os clientes que começam com a letra "a":
+                </p>
+                <code>
+                    SELECT * FROM Clientes <br>
+                    WHERE NomeCLiente LIKE 'A%'; <br>
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">IN</h3>
+                <p>
+                    O operador IN permite especificar vários valores em uma cláusula WHERE. <br>
+                    O operador IN é uma abreviatura para múltiplas condições OR.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT nome_coluna(s) <br>
+                    FROM nome_tabela <br>
+                    WHERE nome_coluna IN (valor1, valor2, ...);
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Retornar todos os clientes da 'Alemanha', 'França' ou 'Reino Unido':
+                </p>
+                <code>
+                    SELECT * FROM Clientes <br>
+                    WHERE País IN ('Alemanha', 'França', 'Reino Unido');
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">BETWEEN</h3>
+                <p>
+                    O operador BETWEEN seleciona valores dentro de um determinado intervalo. Os valores podem ser números, texto ou datas. <br>
+                    O operador BETWEEN é inclusivo: os valores inicial e final estão incluídos.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT nome_coluna(s) <br>
+                    FROM nome:tabela <br>
+                    WHERE nome_coluna BETWEEN valor1 AND valor2;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Seleciona todos os produtos com preço entre 10 e 20:
+                </p>
+                <code>
+                    SELECT * FROM Produtos <br>
+                    WHERE Preço BETWEEN 10 AND 20;  
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">Aliases</h3>
+                <p>
+                    Aliases SQL são usados para fornecer um nome temporário a uma tabela ou coluna em uma tabela. <br>
+                    Aliases são frequentemente usados para tornar os nomes das colunas mais legíveis. <br>
+                    Um alias existe apenas durante essa consulta. <br>
+                    Um alias é criado com a palavra-chave AS.
+                </p>
+                <h4>Sintaxe</h4>
+                <p>Quando é usado numa coluna:</p>
+                <code>
+                    SELECT nome_coluna AS nome_alias <br>
+                    FROM nome_tabela;
+                </code>
+                <p>Quando é usado numa tabela:</p>
+                <code>
+                    SELECT nome_tabela(s) <br>
+                    FROM nome_tabela AS nome_alias;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Seleciona todos os produtos com preço entre 10 e 20:
+                </p>
+                <code>
+                    SELECT ClienteID AS ID <br>
+                    FROM Clientes;  
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">INNER JOIN</h3>
+                <p>
+                    A palavra-chave INNER JOIN seleciona registros que possuem valores correspondentes em ambas as tabelas.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT nome_coluna(s) <br>
+                    FROM tabela1 <br>
+                    INNER JOIN tabela2 <br>
+                    ON tabela1.nome_coluna = tabela2.nome_coluna;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    Juntar produtos e categorias com a palavra-chave INNER JOIN:
+                </p>
+                <code>
+                    SELECT ProdutoID, ProdutoNome, CategoriaNome <br>
+                    FROM Produtos <br>
+                    INNER JOIN Categorias ON Produtos.CategoriaID = Categorias.CategoriaID;  
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">LEFT JOIN</h3>
+                <p>
+                    A palavra-chave LEFT JOIN retorna todos os registros da tabela esquerda (tabela1) e os registros correspondentes da tabela direita (tabela2). O resultado é 0 registros do lado direito, se não houver correspondência.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT nome_coluna(s) <br>
+                    FROM tabela1 <br>
+                    LEFT JOIN tabela2 <br>
+                    ON tabela1.nome_coluna = tabela2.nome_coluna;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A instrução SQL a seguir selecionará todos os clientes e quaisquer pedidos que eles possam ter:
+                </p>
+                <code>
+                    SELECT Clientes.NomeCliente, Encomendas.EncomendaID <br>
+                    FROM Clientes <br>
+                    LEFT JOIN Encomendas ON Clientes.CienteID = Encomendas.ClienteID; <br>
+                    ORDER BY Cientes.NomeCliente; <br>
+                </code> 
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">RIGHT JOIN</h3>
+                <p>
+                    A palavra-chave RIGHT JOIN retorna todos os registros da tabela direita (tabela2) e os registros correspondentes da tabela esquerda (tabela1). O resultado são 0 registros do lado esquerdo, se não houver correspondência.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT nome_coluna(s) <br>
+                    FROM tabela1 <br>
+                    RIGHT JOIN tabela2 <br>
+                    ON tabela1.nome_coluna = tabela2.nome_coluna;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A instrução SQL a seguir retornará todos os funcionários e quaisquer pedidos que eles possam ter feito:
+                </p>
+                <code>
+                    SELECT Encomendas.EncomendaID, Empregado.UltimoNome, Empregado.PrimeiroNome <br>
+                    FROM Encomendas <br>
+                    RIGHT JOIN Empregados ON Encomendas.EmpregadoID = Empregados.EmpregadoID <br>
+                    ORDER BY Encomendas.EncomendaID;   
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">FULL OUTER JOIN</h3>
+                <p>
+                    A palavra-chave FULL OUTER JOIN retorna todos os registros quando há uma correspondência nos registros da tabela esquerda (tabela1) ou direita (tabela2). <br>
+                    Dica: FULL OUTER JOIN e FULL JOIN são iguais.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT nome_coluna(s) <br>
+                    FROM tabela1 <br>
+                    FULL OUTER JOIN tabela2 <br>
+                    ON tabela1.nome_coluna = tabela2.nome_coluna;
+                    WHERE condição;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A seguinte instrução SQL seleciona todos os clientes e todos os pedidos:
+                </p>
+                <code>
+                    SELECT Clientes.NomeCliente, Encomendas.EncomendaID <br>
+                    FROM Clientes <br>
+                    FULL OUTER JOIN Encomendas ON Clientes.ClienteID = Encomenda.ClienteID <br>
+                    ORDER BY Clientes.NomeCliente; 
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">CROSS JOIN</h3>
+                <p>
+                    A palavra-chave CROSS JOIN retorna todos os registros de ambas as tabelas (tabela1 e tabela2).
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    SELECT nome_coluna(s) <br>
+                    FROM tabela1 <br>
+                    CROSS JOIN tabela2; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A seguinte instrução SQL seleciona todos os clientes e todos os pedidos:
+                </p>
+                <code>
+                    SELECT Clientes.NomeCliente, Encomendas.EncomendaID
+                    FROM Clientes
+                    CROSS JOIN Encomendas; 
+                </code>
+            </div>
+        
+        </section>
+
+        <section id="comandos-basesdados">
+    
+            <h2 class="h2">Comandos BD</h2>
+
+            <div class="comando">
+                <h3 class="h3">CREATE DATABASE</h3>
+                <p>
+                    A instrução CREATE DATABASE é usada para criar um novo banco de dados SQL.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    CREATE DATABASE nome_basedados;
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A seguinte instrução cria uma base de dados com o nome "exemplo":
+                </p>
+                <code>
+                    CREATE DATABASE exemplo;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">DROP DATABASE</h3>
+                <p>
+                    A instrução DROP DATABASE é usada para eliminar uma base de dados SQL existente.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    DROP DATABASE nome_basedados; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A seguinte instrução elimina a base de dados com o nome "exemplo":
+                </p>
+                <code>
+                    DROP DATABASE exemplo;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">CREATE TABLE</h3>
+                <p>
+                    A instrução CREATE TABLE é usada para criar uma nova tabela em uma base de dados.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    CREATE TABLE nome_tabela ( <br>
+                        coluna1 tipodado,<br>
+                        coluna2 tipodado,<br>
+                        coluna3 tipodado, <br>
+                        .... <br>
+                    ); 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    O exemplo a seguir cria uma tabela chamada "Pessoas" que contém cinco colunas: PessoaID, UltimoNome, PrimeiroNome, Endereco e Cidade. Mostra também como definir a chave primária e chaves estrangeiras.
+                </p>
+                <code>
+                    CREATE TABLE Persons ( <br>
+                        PessoaID int, <br>
+                        UltimoNome varchar(255), <br>
+                        PrimeiroNome varchar(255), <br>
+                        Endereco varchar(255), <br>
+                        CidadeID varchar(255) <br>
+                        PRIMARY KEY (PessoaID) <br>
+                        FOREIGN KEY (CidadeID) REFERENCES Cidades(CidadesID) <br>
+                    );
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">DROP TABLE</h3>
+                <p>
+                    A instrução DROP TABLE é usada para eliminar uma tabela existente numa base de dados.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    DROP TABLE nome_tabela; 
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    O exemplo a seguir elimina a tabela chamada Pessoas:
+                </p>
+                <code>
+                    DROP TABLE Pessoas;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">TRUNCATE TABLE</h3>
+                <p>
+                    A instrução TRUNCATE TABLE é usada para excluir os dados dentro de uma tabela, mas não a própria tabela.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    TRUNCATE TABLE nome_tabela;  
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    O exemplo a seguir elimina os dados dentro da tabela Pessoas, mas não a tabela:
+                </p>
+                <code>
+                    TRUNCATE TABLE Pessoas;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">ALTER TABLE</h3>
+                <p>
+                    A instrução ALTER TABLE é usada para adicionar, excluir ou modificar colunas em uma tabela existente. <br>
+                    A instrução ALTER TABLE também é usada para adicionar e eliminar várias restrições em uma tabela existente.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    ALTER TABLE nome_tabela <br>
+                    ADD nome_coluna tipodado;  
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    O exemplo adiciona a coluna "Idade" à tabela Pessoas:
+                </p>
+                <code>
+                    ALTER TABLE Pessoas <br>
+                    ADD Idade int;
+                </code>
+            </div>
+
+            <div class="comando">
+                <h3 class="h3">ALTER TABLE</h3>
+                <p>
+                    A instrução ALTER TABLE é usada para adicionar, excluir ou modificar colunas em uma tabela existente. <br>
+                    A instrução ALTER TABLE também é usada para adicionar e eliminar várias restrições em uma tabela existente.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    ALTER TABLE nome_tabela <br>
+                    ADD nome_coluna tipodado;  
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    O exemplo adiciona a coluna "Idade" à tabela Pessoas:
+                </p>
+                <code>
+                    ALTER TABLE Pessoas <br>
+                    ADD Idade int;
+                </code>
+            </div>
+     
+        </section>
+
+    
+        <section id="indices">
+
+            <h2>Índices</h2>
+    
+            <div class="comando">
+                <h3 class="h3">CREATE INDEX</h3>
+                <p>
+                    A instrução CREATE INDEX é usada para criar índices em tabelas. <br>
+                    Os índices são usados para recuperar dados da base de dados mais rapidamente do que de outra forma. Os usuários não podem ver os índices, eles apenas servem para agilizar pesquisas/consultas.
+                </p>
+                <h4>Sintaxe</h4>
+                <p>1. Cria um índice numa tabela. Valores duplicados são permitidos:</p>
+                <code>
+                    CREATE INDEX nome_indice
+                    ON nome_tabela (coluna1, coluna2, ...);  
+                </code>
+                <p>2. Cria um índice único numa tabela. Valores duplicados não são permitidos:</p>
+                <code>
+                    CREATE UNIQUE INDEX nome_indice
+                    ON nome_tabela (coluna1, coluna2, ...);  
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    A instrução SQL abaixo cria um índice denominado "indice_ultimoNome" na coluna "UltimoNome" da tabela "Pessoas":
+                </p>
+                <code>
+                    CREATE INDEX indice_ultimoNome
+                    ON Pessoas (UltimoNome); 
+                </code>
+            </div>
+        
+        </section>
+    
+        <section id="views">
+    
+            <h2 class="h2">Views</h2>
+    
+            <div class="comando">
+                <h3 class="h3">CREATE VIEW </h3>
+                <p>
+                    Em SQL, uma view é uma tabela virtual baseada no conjunto de resultados de uma instrução SQL. <br>
+                    Uma view contém linhas e colunas, assim como uma tabela real. Os campos em uma view são campos de uma ou mais tabelas reais do banco de dados. <br>
+                    Você pode adicionar instruções e funções SQL a uma view e apresentar os dados como se viessem de uma única tabela. <br>
+                    Uma view é criada com a instrução CREATE VIEW.
+                </p>
+                <h4>Sintaxe</h4>
+                <code>
+                    CREATE VIEW nome_view AS <br>
+                    SELECT coluna1, coluna2, ... <br>
+                    FROM nome_tabela <br>
+                    WHERE condição;   
+                </code>
+                <h4>Exemplo</h4>
+                <p>​
+                    O SQL a seguir cria uma view que mostra todos os clientes do Brasil:
+                </p>
+                <code>
+                    CREATE VIEW [Clientes do Brasil] AS
+                    SELECT NomeCliente, NomeContacot
+                    FROM Clientes
+                    WHERE País = 'Brasil'; 
+                </code>
+            </div>
+        
+        </section>
+
+        <section id="tiposdados">
+    
+            <h2 class="h2">Tipos de Dados MySQL</h2>
+    
+            <p>Em MySQL existem três principais tipos de dados: <strong>string</strong>, <strong>numérico</strong> e <strong>data e hora</strong>.</p>
+            <p>Alguns exemplos de para cada um deles são: <br> <br>
+                <strong>String: </strong> CHAR, VARCHAR, TEXT, LONGTEXT <br>
+                <strong>Numérico: </strong> INT, FLOAT, DOUBLE, BOOL <br>
+                <strong>Data e Hora </strong> DATE, DATETIME, TIME, YEAR <br>
+            </p>
+        
+        </section>
+    
+    </main>
+    
+</body>
+</html>
